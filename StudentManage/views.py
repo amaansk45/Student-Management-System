@@ -1,5 +1,6 @@
 from django.shortcuts import render , redirect
 from StudentManage.models import *
+from django.contrib import messages
 
 def student(request):
     queryset = Student.objects.all()
@@ -41,3 +42,27 @@ def delete(request, id):
     queryset = Student.objects.get(id=id)
     queryset.delete()
     return redirect('/student/')
+
+def login_page(request):
+    return render(request, 'login.html')
+
+def register_page(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Already have an account.")
+            return redirect('/register_page/')
+
+        user = User.objects.create(
+            username=username,
+            email=email,
+        )
+        user.set_password(password)
+        user.save()
+        messages.info(request, "Account Created Successfully.")
+        return redirect('/register_page/')
+        
+    return render(request, 'register.html')
