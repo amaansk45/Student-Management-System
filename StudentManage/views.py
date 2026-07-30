@@ -16,7 +16,6 @@ def addstudent(request):
         course = data.get('course')
         age = data.get('age')
         status = data.get('status')
-        # age = data.get('age')
 
         print(name)
         print(email)
