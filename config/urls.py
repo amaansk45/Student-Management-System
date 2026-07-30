@@ -19,8 +19,10 @@ from django.urls import path
 from StudentManage.views import *
 
 urlpatterns = [
-     path('student/', student, name='student'),
+    path('student/', student, name='student'),
     path('addstudent/', addstudent, name='addstudent'),
     path('delete/<int:id>/', delete, name='delete'),
+    path('login_page/', login_page, name='login_page'),
+    path('register_page/', register_page, name='register_page'),
     path('admin/', admin.site.urls),
 ]

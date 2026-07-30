@@ -1,10 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Student(models.Model):
     STATUS_CHOICES = (
         ("active", "Active"),
         ("inactive", "Inactive"),
     )
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.IntegerField()
@@ -15,3 +17,8 @@ class Student(models.Model):
         choices=STATUS_CHOICES,
         default="active"
     )
+
+class user(models.Model):
+    username = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    password = models.CharField(max_length=50)
