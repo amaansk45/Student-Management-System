@@ -1,12 +1,22 @@
 from django.shortcuts import render , redirect
 from StudentManage.models import *
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('/student/')
+    return render(request, "home.html")
+
+@login_required(login_url='login_page')
 def student(request):
     queryset = Student.objects.all()
     
     return render(request, 'student.html', context= {'student' : queryset})
 
+@login_required(login_url='login_page')
 def addstudent(request):
      if request.method == 'POST':
         data = request.POST
@@ -37,12 +47,31 @@ def addstudent(request):
 
      return render(request, 'addStudent.html', context= {'student' : queryset})
 
+@login_required(login_url='login_page')
 def delete(request, id):
     queryset = Student.objects.get(id=id)
     queryset.delete()
     return redirect('/student/')
 
+
 def login_page(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        if not User.objects.filter(username=username).exists():
+            messages.error(request, "Invalid User.")
+            return redirect('/login_page/')
+    
+        user = authenticate(request, username=username, password=password)
+
+        if user is None:
+            messages.error(request, "Invalid Passsword.")
+            return redirect('/login_page/')
+        else:
+            login(request,user)
+            return redirect('/student/')
+
     return render(request, 'login.html')
 
 def register_page(request):
@@ -65,3 +94,7 @@ def register_page(request):
         return redirect('/register_page/')
         
     return render(request, 'register.html')
+
+def logout_page(request):
+    logout(request)
+    return redirect('/login_page/')
