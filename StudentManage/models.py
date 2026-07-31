@@ -6,7 +6,7 @@ class Student(models.Model):
         ("active", "Active"),
         ("inactive", "Inactive"),
     )
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.IntegerField()
