@@ -1,57 +1,53 @@
 {% extends "base.html" %}
 {% block start %}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-header text-center">
-                    <h3>Register</h3>
-                </div>
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white w-full max-w-md rounded-xl shadow-xl p-8">
 
-                <div class="card-body">
-                    <form method="POST">
-                        {% csrf_token %}
-                       {% if messages %}
-                            {% for message in messages %}
-                                <div class="alert alert-danger">
-                                    {{ message }}
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                        <div class="mb-3">
-                            <label>Username</label>
-                            <input type="text" name="username" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Confirm Password</label>
-                            <input type="password" name="confirm_password" class="form-control" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-success w-100">
-                            Register
-                        </button>
-                    </form>
-
-                    <div class="text-center mt-3">
-                        Already have an account?
-                        <a href="{% url 'login_page'%}">Login</a>
-                    </div>
-                </div>
-
+        <div class="text-center mb-6">
+            <div class="w-14 h-14 bg-blue-500 rounded-full mx-auto flex items-center justify-center text-white text-2xl">
+                🎓
             </div>
+            <h2 class="text-3xl font-bold mt-4">EduManage AI</h2>
+            <p class="text-gray-500 text-sm">Create New Account</p>
         </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="bg-red-100 text-red-700 p-3 rounded mb-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="text" name="username" placeholder="Username"
+                class="w-full border rounded-lg px-3 py-2 mb-3" required>
+
+            <input type="email" name="email" placeholder="Email"
+                class="w-full border rounded-lg px-3 py-2 mb-3" required>
+
+            <input type="password" name="password" placeholder="Password"
+                class="w-full border rounded-lg px-3 py-2 mb-3" required>
+
+            <input type="password" name="confirm_password" placeholder="Confirm Password"
+                class="w-full border rounded-lg px-3 py-2 mb-4" required>
+
+            <button type="submit"
+                class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+                Sign Up
+            </button>
+        </form>
+
+        <p class="text-center mt-4 text-gray-600">
+            Already have an account?
+            <a href="{% url 'login_page' %}" class="text-blue-600 font-semibold">
+                Login
+            </a>
+        </p>
+
     </div>
 </div>
 
