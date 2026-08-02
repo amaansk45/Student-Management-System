@@ -3,7 +3,7 @@ from StudentManage.models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Q
 
 def home(request):
     if request.user.is_authenticated:
@@ -13,6 +13,15 @@ def home(request):
 @login_required(login_url='login_page')
 def student(request):
     queryset = Student.objects.all()
+    search = request.POST.get('search')
+
+    if search:
+        queryset = Student.objects.filter(
+            Q(name__icontains=search) |
+            Q(email__icontains=search) |
+            Q(phone__icontains=search) |
+            Q(course__icontains=search)
+        )
     
     return render(request, 'student.html', context= {'student' : queryset})
 
